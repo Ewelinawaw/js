@@ -15,30 +15,34 @@ var player = {
     score: 0,
     pick: ''
 };
-var round= 0;
-
-
-
-//Reset
-computer.score = 0;
-computer.pick = "";
-player.score = 0;
-player.pick = "";
-round = 0;
-
-player.name = prompt("Jak się nazywasz?", "Jan Kowalski");
-document.getElementById("playerName").innerHTML = player.name;
+var round = 0;
 
 
 
 
 function newGame() {
-var buttons = document.getElementsByClassName("pick-button");
-for(var i = 0; i < buttons.length; i++) {
-    buttons[i].style.visibility = 'visible';
+    player.pick = "";
+    player.score = 0;
+    computer.score = 0;
+    computer.pick = "";
+    round = 0;
+    player.name = prompt("Jak mam się do ciebie zwracać?");
+    document.getElementById("playerName").innerHTML = player.name;
+    var buttons = document.getElementsByClassName("pick-button");
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.visibility = 'visible';
+
     }
 }
 
+
+
+function playerPick(pick) {
+    player.pick = pick; //save player's pick
+    computerPick(); //choose computer's pick
+    checkResult(); //check result
+
+}
 
 
 function computerPick() {
@@ -56,12 +60,15 @@ function computerPick() {
     }
 }
 
+
+
 function checkResult() {
     //Check if there is a tie
     var gameResult;
     if (player.pick === computer.pick) {
         gameResult = "tie!"
-    } else if (player.pick === "rock") { //if player chooses rock
+    }
+    else if (player.pick === "rock") { //if player chooses rock
 
         if (computer.pick === "scissors") {
             player.score++;
@@ -72,7 +79,8 @@ function checkResult() {
             gameResult = "Computer wins!"
         }
 
-    } else if (player.pick === "paper") { //if player chooses paper
+    }
+    else if (player.pick === "paper") { //if player chooses paper
 
         if (computer.pick === "rock") {
             player.score++;
@@ -83,7 +91,9 @@ function checkResult() {
             gameResult = "Computer wins!"
         }
 
-    } else if (player.pick === "scissors") { //if player chooses scissors
+    }
+    else if (player.pick === "scissors") { //if player chooses scissors
+
         if (computer.pick === "paper") {
             player.score++;
             gameResult = "Player wins!"
@@ -94,47 +104,50 @@ function checkResult() {
         }
 
     }
-}
+
+    round++;
 
 
-
-function playerPick(pick) {
-    player.pick = pick; //save player's pick
-    computerPick(); //choose computer's pick
-    checkResult(); //check result
-
-}
-
-checkResult();
-
-function checkResult() {
     document.getElementById("computerPick").innerHTML = computer.pick;
     document.getElementById("playerPick").innerHTML = player.pick;
     document.getElementById("gameResult").innerHTML = gameResult;
-
-}
-
-checkResult();
+    document.getElementById("playerScore").innerHTML = player.score;
+    document.getElementById("computerScore").innerHTML = computer.score;
 
 
-if ( (player.score >= 10) || (computer.score >=10) ) {
-    //log the result
-    if (player.score > computer.score) {
-        document.getElementById("roundResult").innerHTML = "player wins the game!";
-    } else {
-        document.getElementById("roundResult").innerHTML = "computer wins the game!";
+    if ((player.score >= 10) || (computer.score >= 10)) {
+        //log the result
+        if (player.score > computer.score) {
+            document.getElementById("roundResult").innerHTML = "player wins the game!";
+        } else {
+            document.getElementById("roundResult").innerHTML = "computer wins the game!";
+        }
+
+        //hide buttons
+
+        var buttons = document.getElementsByClassName("pick-button");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].style.visibility = 'hidden';
+        }
     }
 }
 
-//hide buttons
-function endResult() {
-    var buttons = document.getElementsByClassName("pick-button");
 
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].style.visibility = 'hidden';
-    }
-}
-    endResult();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
